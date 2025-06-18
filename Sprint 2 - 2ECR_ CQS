@@ -1,0 +1,23 @@
+http://localhost:8889/notebooks/anaconda_projects/23d8832a-e296-4ea8-ba3d-11642af73e70/Sprint%202%202ECR.ipynb?
+
+!pip install qiskit
+!pip install qiskit-aer
+
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram
+import matplotlib.pyplot as plt
+%matplotlib inline  
+
+circuit = QuantumCircuit(2, 2)
+circuit.h(0)
+circuit.cx(0, 1)
+circuit.measure([0, 1], [0, 1])
+
+simulator = AerSimulator()
+compiled = transpile(circuit, simulator)
+result = simulator.run(compiled, shots=1000).result()
+counts = result.get_counts()
+
+plot_histogram(counts)
+plt.show()
